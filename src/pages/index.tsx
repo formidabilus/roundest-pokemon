@@ -3,7 +3,13 @@ import Head from "next/head";
 import { trpc } from "../utils/trpc";
 
 const Home: NextPage = () => {
-  const hello = trpc.example.hello.useQuery({ text: "from tRPC" });
+  const { data, isLoading } = trpc.example.hello.useQuery({
+    text: "from tRPC",
+  });
+
+  if (isLoading) return <div>Loading...</div>;
+
+  if (data) return <div>{data.greeting}</div>;
 
   return (
     <div className="flex h-screen w-screen flex-col items-center justify-center">
